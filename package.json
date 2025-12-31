@@ -1,5 +1,5 @@
 {
-  "name": "ruoyi",
+  "name": "crb-frontend",
   "version": "3.9.1",
   "description": "传染病上报与预警系统",
   "author": "若依",
@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://gitee.com/y_project/RuoYi-Vue.git"
+    "url": "https://github.com/coolleave/crb-frontend.git"
   },
   "dependencies": {
     "@element-plus/icons-vue": "2.3.1",
