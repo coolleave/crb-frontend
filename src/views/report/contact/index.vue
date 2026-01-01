@@ -1,10 +1,10 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="关联病例ID" prop="caseId">
+      <el-form-item label="病例编号" prop="caseId">
         <el-input
           v-model="queryParams.caseId"
-          placeholder="请输入关联病例ID"
+          placeholder="请输入病例编号"
           clearable
           @keyup.enter="handleQuery"
         />
@@ -43,6 +43,7 @@
           :disabled="multiple"
           @click="handleDelete"
           v-hasPermi="['report:contact:remove']"
+          v-if="false"
         >删除</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -60,7 +61,7 @@
     <el-table v-loading="loading" :data="contactList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="ID" align="center" prop="trackId" />
-      <el-table-column label="关联病例ID" align="center" prop="caseId" />
+      <el-table-column label="病例编号" align="center" prop="caseId" />
       <el-table-column label="轨迹发生时间" align="center" prop="trackDatetime" width="180">
         <template #default="scope">
           <span>{{ parseTime(scope.row.trackDatetime, '{y}-{m}-{d}') }}</span>
@@ -80,7 +81,7 @@
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template #default="scope">
           <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['report:contact:edit']">修改</el-button>
-          <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['report:contact:remove']">删除</el-button>
+          <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['report:contact:remove']" v-if="false">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -96,8 +97,8 @@
     <!-- 添加或修改病例轨迹与接触人群对话框 -->
     <el-dialog :title="title" v-model="open" width="500px" append-to-body>
       <el-form ref="contactRef" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="关联病例ID" prop="caseId">
-          <el-input v-model="form.caseId" placeholder="请输入关联病例ID" />
+        <el-form-item label="病例编号" prop="caseId">
+          <el-input v-model="form.caseId" placeholder="请输入病例编号" />
         </el-form-item>
         <el-form-item label="轨迹发生时间" prop="trackDatetime">
           <el-date-picker clearable
@@ -174,7 +175,7 @@ const data = reactive({
   },
   rules: {
     caseId: [
-      { required: true, message: "关联病例ID不能为空", trigger: "blur" }
+      { required: true, message: "病例编号不能为空", trigger: "blur" }
     ],
   }
 })

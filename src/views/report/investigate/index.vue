@@ -35,6 +35,7 @@
           :disabled="multiple"
           @click="handleDelete"
           v-hasPermi="['report:investigate:remove']"
+          v-if="false"
         >删除</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -52,15 +53,14 @@
     <el-table v-loading="loading" :data="investigateList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="核实ID" align="center" prop="verifyId" />
-      <el-table-column label="关联病例ID" align="center" prop="caseId" />
+      <el-table-column label="病例编号" align="center" prop="caseId" />
       <el-table-column label="核实时间" align="center" prop="verifyDatetime" width="180">
         <template #default="scope">
           <span>{{ parseTime(scope.row.verifyDatetime, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="1=确诊，2=疑似，3=排除，4=待复查" align="center" prop="verifyResult" />
+      <el-table-column label="状态" align="center" prop="verifyResult" />
       <el-table-column label="核实依据" align="center" prop="verifyBasis" />
-      <el-table-column label="1=未处理，2=处理中，3=已完成，4=无需处理" align="center" prop="handleStatus" />
       <el-table-column label="备注" align="center" prop="remark" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template #default="scope">
@@ -81,8 +81,8 @@
     <!-- 添加或修改上报数据核实诊断与调查处理对话框 -->
     <el-dialog :title="title" v-model="open" width="500px" append-to-body>
       <el-form ref="investigateRef" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="关联病例ID" prop="caseId">
-          <el-input v-model="form.caseId" placeholder="请输入关联病例ID" />
+        <el-form-item label="病例编号" prop="caseId">
+          <el-input v-model="form.caseId" placeholder="请输入病例编号" />
         </el-form-item>
         <el-form-item label="核实疾控人员ID" prop="verifyStaffId">
           <el-input v-model="form.verifyStaffId" placeholder="请输入核实疾控人员ID" />
@@ -95,8 +95,8 @@
             placeholder="请选择核实时间">
           </el-date-picker>
         </el-form-item>
-        <el-form-item label="1=确诊，2=疑似，3=排除，4=待复查" prop="verifyResult">
-          <el-input v-model="form.verifyResult" placeholder="请输入1=确诊，2=疑似，3=排除，4=待复查" />
+        <el-form-item label="状态" prop="verifyResult">
+          <el-input v-model="form.verifyResult" placeholder="请输入状态" />
         </el-form-item>
         <el-form-item label="核实依据" prop="verifyBasis">
           <el-input v-model="form.verifyBasis" type="textarea" placeholder="请输入内容" />
@@ -166,7 +166,7 @@ const data = reactive({
   },
   rules: {
     caseId: [
-      { required: true, message: "关联病例ID不能为空", trigger: "blur" }
+      { required: true, message: "病例编号不能为空", trigger: "blur" }
     ],
   }
 })

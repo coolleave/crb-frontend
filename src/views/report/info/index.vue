@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="传染病编码" prop="infectCode">
+      <el-form-item label="编码" prop="infectCode" style="width: 250px;">
         <el-input
           v-model="queryParams.infectCode"
           placeholder="请输入传染病编码"
@@ -9,7 +9,7 @@
           @keyup.enter="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="传染病名称" prop="infectName">
+      <el-form-item label="名称" prop="infectName">
         <el-input
           v-model="queryParams.infectName"
           placeholder="请输入传染病名称"

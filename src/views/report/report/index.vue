@@ -9,14 +9,7 @@
           @keyup.enter="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="传染病" prop="infectId">
-        <el-input
-          v-model="queryParams.infectId"
-          placeholder="请输入传染病"
-          clearable
-          @keyup.enter="handleQuery"
-        />
-      </el-form-item>
+    
       <el-form-item label="患者姓名" prop="patientName">
         <el-input
           v-model="queryParams.patientName"
@@ -25,70 +18,9 @@
           @keyup.enter="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="性别" prop="patientGender">
-        <el-input
-          v-model="queryParams.patientGender"
-          placeholder="请输入性别"
-          clearable
-          @keyup.enter="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="患者年龄" prop="patientAge">
-        <el-input
-          v-model="queryParams.patientAge"
-          placeholder="请输入患者年龄"
-          clearable
-          @keyup.enter="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="患者身份证号" prop="patientIdcard">
-        <el-input
-          v-model="queryParams.patientIdcard"
-          placeholder="请输入患者身份证号"
-          clearable
-          @keyup.enter="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="患者手机号" prop="patientPhone">
-        <el-input
-          v-model="queryParams.patientPhone"
-          placeholder="请输入患者手机号"
-          clearable
-          @keyup.enter="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="患者所在省份" prop="province">
-        <el-input
-          v-model="queryParams.province"
-          placeholder="请输入患者所在省份"
-          clearable
-          @keyup.enter="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="患者所在城市" prop="city">
-        <el-input
-          v-model="queryParams.city"
-          placeholder="请输入患者所在城市"
-          clearable
-          @keyup.enter="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="患者所在区县" prop="district">
-        <el-input
-          v-model="queryParams.district"
-          placeholder="请输入患者所在区县"
-          clearable
-          @keyup.enter="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="患者详细住址" prop="detailAddress">
-        <el-input
-          v-model="queryParams.detailAddress"
-          placeholder="请输入患者详细住址"
-          clearable
-          @keyup.enter="handleQuery"
-        />
-      </el-form-item>
+     
+      
+      
       <el-form-item label="发病时间" prop="onsetDatetime">
         <el-date-picker clearable
           v-model="queryParams.onsetDatetime"
@@ -105,38 +37,7 @@
           placeholder="请选择上报时间">
         </el-date-picker>
       </el-form-item>
-      <el-form-item label="上报医务人员" prop="reporterId">
-        <el-input
-          v-model="queryParams.reporterId"
-          placeholder="请输入上报医务人员"
-          clearable
-          @keyup.enter="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="上报机构" prop="reportDeptId">
-        <el-input
-          v-model="queryParams.reportDeptId"
-          placeholder="请输入上报机构"
-          clearable
-          @keyup.enter="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="住院病区" prop="hospitalWard">
-        <el-input
-          v-model="queryParams.hospitalWard"
-          placeholder="请输入住院病区"
-          clearable
-          @keyup.enter="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="住院床位号" prop="hospitalBed">
-        <el-input
-          v-model="queryParams.hospitalBed"
-          placeholder="请输入住院床位号"
-          clearable
-          @keyup.enter="handleQuery"
-        />
-      </el-form-item>
+      
       <el-form-item>
         <el-button type="primary" icon="Search" @click="handleQuery">搜索</el-button>
         <el-button icon="Refresh" @click="resetQuery">重置</el-button>
@@ -171,6 +72,7 @@
           :disabled="multiple"
           @click="handleDelete"
           v-hasPermi="['report:report:remove']"
+          v-if="false"
         >删除</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -194,8 +96,6 @@
       <el-table-column label="患者姓名" align="center" prop="patientName" />
       <el-table-column label="性别" align="center" prop="patientGender" />
       <el-table-column label="患者年龄" align="center" prop="patientAge" />
-      <el-table-column label="患者身份证号" align="center" prop="patientIdcard" />
-      <el-table-column label="患者手机号" align="center" prop="patientPhone" />
       <el-table-column label="患者所在省份" align="center" prop="province" />
       <el-table-column label="患者所在城市" align="center" prop="city" />
       <el-table-column label="患者所在区县" align="center" prop="district" />
@@ -218,7 +118,7 @@
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template #default="scope">
           <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['report:report:edit']">修改</el-button>
-          <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['report:report:remove']">删除</el-button>
+          <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['report:report:remove']" v-if="false">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
