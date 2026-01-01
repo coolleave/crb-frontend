@@ -2,7 +2,7 @@
   "name": "crb-frontend",
   "version": "3.9.1",
   "description": "传染病上报与预警系统",
-  "author": "若依",
+  "author": "coolleave",
   "license": "MIT",
   "type": "module",
   "scripts": {
