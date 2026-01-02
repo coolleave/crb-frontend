@@ -52,6 +52,6 @@ export default {
   /**
    * 底部版权文本内容
    */
-  footerContent: 'Copyright © 2018-2025 coolleave. All Rights Reserved.'
+  footerContent: 'Copyright © 2025-2026 coolleave. All Rights Reserved.'
 }
 

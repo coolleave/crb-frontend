@@ -92,7 +92,12 @@
       <el-table-column label="病例ID" align="center" prop="caseId" />
       <el-table-column label="病例编号" align="center" prop="caseCode" />
       <el-table-column label="传染病" align="center" prop="infectId" />
-      <el-table-column label="上报类型" align="center" prop="reportType" />
+      <el-table-column label="上报类型" align="center" prop="reportType">
+        <template #default="scope">
+          <dict-tag :options="case_report_type" :value="scope.row.reportType" />
+        </template>
+      </el-table-column>
+
       <el-table-column label="患者姓名" align="center" prop="patientName" />
       <el-table-column label="性别" align="center" prop="patientGender" />
       <el-table-column label="患者年龄" align="center" prop="patientAge" />
@@ -210,7 +215,7 @@
 import { listReport, getReport, delReport, addReport, updateReport } from "@/api/report/report"
 
 const { proxy } = getCurrentInstance()
-
+const { case_report_type } = proxy.useDict("case_report_type")
 const reportList = ref([])
 const open = ref(false)
 const loading = ref(true)
