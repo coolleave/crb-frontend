@@ -60,7 +60,6 @@
 
     <el-table v-loading="loading" :data="contactList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="ID" align="center" prop="trackId" />
       <el-table-column label="病例编号" align="center" prop="caseId" />
       <el-table-column label="轨迹发生时间" align="center" prop="trackDatetime" width="180">
         <template #default="scope">
@@ -68,7 +67,11 @@
         </template>
       </el-table-column>
       <el-table-column label="轨迹地点" align="center" prop="trackAddress" />
-      <el-table-column label="轨迹类型" align="center" prop="trackType" />
+      <el-table-column label="轨迹类型" align="center" prop="trackType" >
+        <template #default="scope">
+          <dict-tag :options="case_track_type" :value="scope.row.trackType" />
+        </template>
+      </el-table-column>
       <el-table-column label="轨迹描述" align="center" prop="trackDesc" />
       <el-table-column label="接触人姓名" align="center" prop="contactName" />
       <el-table-column label="接触关系" align="center" prop="contactRelation" />
@@ -137,8 +140,17 @@
         <el-form-item label="接触地点" prop="contactAddress">
           <el-input v-model="form.contactAddress" placeholder="请输入接触地点" />
         </el-form-item>
-        <el-form-item label="1=高风险，2=中风险，3=低风险" prop="contactRisk">
-          <el-input v-model="form.contactRisk" placeholder="请输入1=高风险，2=中风险，3=低风险" />
+
+        <el-form-item label="风险程度" prop="contactRisk">
+          <dict-tag :options="case_contract_risk" :value="form.contactRisk" />
+          <el-select v-model="form.contactRisk" placeholder="请选择风险程度" clearable>
+            <el-option 
+              v-for="dict in case_contract_risk"
+              :key="dict.value" 
+              :label="dict.label" 
+              :value="dict.value"
+            />
+          </el-select>
         </el-form-item>
       </el-form>
       <template #footer>
@@ -155,7 +167,9 @@
 import { listContact, getContact, delContact, addContact, updateContact } from "@/api/report/contact"
 
 const { proxy } = getCurrentInstance()
-
+const {case_track_type} = proxy.useDict("case_track_type")
+const {case_contract_risk} = proxy.useDict("case_contract_risk")
+console.log(case_track_type)
 const contactList = ref([])
 const open = ref(false)
 const loading = ref(true)

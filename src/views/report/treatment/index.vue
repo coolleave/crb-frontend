@@ -52,7 +52,6 @@
 
     <el-table v-loading="loading" :data="treatmentList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="诊治编号" align="center" prop="diagId" />
       <el-table-column label="病例编号" align="center" prop="caseId" />
       <el-table-column label="诊治医生姓名" align="center" prop="diagDoctor" />
       <el-table-column label="诊断时间" align="center" prop="diagDatetime" width="180">
@@ -61,7 +60,11 @@
         </template>
       </el-table-column>
       <el-table-column label="诊断结果" align="center" prop="diagResult" />
-      <el-table-column label="1=已隔离，0=未隔离" align="center" prop="isIsolated" />
+      <el-table-column label="是否隔离" align="center" prop="isIsolated" >
+        <template #default="scope">
+          <dict-tag :options="[{label:'是',value:1},{label:'否',value:0}]" :value="scope.row.isIsolated" />
+        </template>
+      </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template #default="scope">
           <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['report:treatment:edit']">修改</el-button>
@@ -81,8 +84,8 @@
     <!-- 添加或修改病例诊治处理对话框 -->
     <el-dialog :title="title" v-model="open" width="500px" append-to-body>
       <el-form ref="treatmentRef" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="病例编号" prop="caseId">
-          <el-input v-model="form.caseId" placeholder="请输入病例编号" />
+        <el-form-item label="病例编号" prop="caseId"  readonly>
+          <el-input v-model="form.caseId" placeholder="请输入病例编号" readonly/>
         </el-form-item>
         <el-form-item label="诊治医生姓名" prop="diagDoctor">
           <el-input v-model="form.diagDoctor" placeholder="请输入诊治医生姓名" />
@@ -98,8 +101,14 @@
         <el-form-item label="诊断结果" prop="diagResult">
           <el-input v-model="form.diagResult" type="textarea" placeholder="请输入内容" />
         </el-form-item>
-        <el-form-item label="治疗方案" prop="treatmentPlan">
-          <el-input v-model="form.treatmentPlan" type="textarea" placeholder="请输入内容" />
+        <el-form-item label="治疗方案" prop="treatmentPlan" >
+          <el-input 
+            v-model="form.treatmentPlan" 
+            type="textarea" 
+            placeholder="请输入内容"
+            :autosize="{ minRows: 3, maxRows: 10 }" 
+            style="width: 100%;"  
+          />
         </el-form-item>
         <el-form-item label="隔离地点" prop="isolateAddress">
           <el-input v-model="form.isolateAddress" placeholder="请输入隔离地点" />

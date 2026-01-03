@@ -89,7 +89,6 @@
 
     <el-table v-loading="loading" :data="reportList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="病例ID" align="center" prop="caseId" />
       <el-table-column label="病例编号" align="center" prop="caseCode" />
       <el-table-column label="传染病" align="center" prop="infectId" />
       <el-table-column label="上报类型" align="center" prop="reportType">
@@ -99,7 +98,11 @@
       </el-table-column>
 
       <el-table-column label="患者姓名" align="center" prop="patientName" />
-      <el-table-column label="性别" align="center" prop="patientGender" />
+      <el-table-column label="性别" align="center" prop="patientGender">
+        <template #default="scope">
+          <dict-tag :options="case_psex" :value="scope.row.patientGender" />
+        </template>
+      </el-table-column>
       <el-table-column label="患者年龄" align="center" prop="patientAge" />
       <el-table-column label="患者所在省份" align="center" prop="province" />
       <el-table-column label="患者所在城市" align="center" prop="city" />
@@ -117,7 +120,11 @@
       </el-table-column>
       <el-table-column label="上报医务人员" align="center" prop="reporterId" />
       <el-table-column label="上报机构" align="center" prop="reportDeptId" />
-      <el-table-column label="核实状态" align="center" prop="caseStatus" />
+      <el-table-column label="核实状态" align="center" prop="caseStatus" >
+        <template #default="scope">
+          <dict-tag :options="case_verify_result" :value="scope.row.caseStatus" />
+        </template>
+      </el-table-column>
       <el-table-column label="住院病区" align="center" prop="hospitalWard" />
       <el-table-column label="住院床位号" align="center" prop="hospitalBed" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
@@ -149,7 +156,15 @@
           <el-input v-model="form.patientName" placeholder="请输入患者姓名" />
         </el-form-item>
         <el-form-item label="性别" prop="patientGender">
-          <el-input v-model="form.patientGender" placeholder="请输入性别" />
+          <dict-tag :options="case_psex" :value="form.patientGender" />
+          <el-select v-model="form.patientGender" placeholder="请选择性别">
+            <el-option
+              v-for="item in case_psex"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
         </el-form-item>
         <el-form-item label="患者年龄" prop="patientAge">
           <el-input v-model="form.patientAge" placeholder="请输入患者年龄" />
@@ -216,6 +231,8 @@ import { listReport, getReport, delReport, addReport, updateReport } from "@/api
 
 const { proxy } = getCurrentInstance()
 const { case_report_type } = proxy.useDict("case_report_type")
+const {case_verify_result} = proxy.useDict("case_verify_result")
+const {case_psex } = proxy.useDict("case_psex")
 const reportList = ref([])
 const open = ref(false)
 const loading = ref(true)

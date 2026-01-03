@@ -52,20 +52,23 @@
 
     <el-table v-loading="loading" :data="investigateList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="核实ID" align="center" prop="verifyId" />
       <el-table-column label="病例编号" align="center" prop="caseId" />
       <el-table-column label="核实时间" align="center" prop="verifyDatetime" width="180">
         <template #default="scope">
           <span>{{ parseTime(scope.row.verifyDatetime, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="状态" align="center" prop="verifyResult" />
+      <el-table-column label="状态" align="center" prop="verifyResult" >
+        <template #default="scope">
+          <dict-tag :options="case_verify_result" :value="scope.row.verifyResult" />
+        </template>
+      </el-table-column>
       <el-table-column label="核实依据" align="center" prop="verifyBasis" />
       <el-table-column label="备注" align="center" prop="remark" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template #default="scope">
           <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['report:investigate:edit']">修改</el-button>
-          <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['report:investigate:remove']">删除</el-button>
+          <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['report:investigate:remove']" v-if="0">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -82,11 +85,11 @@
     <el-dialog :title="title" v-model="open" width="500px" append-to-body>
       <el-form ref="investigateRef" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="病例编号" prop="caseId">
-          <el-input v-model="form.caseId" placeholder="请输入病例编号" />
+          <el-input v-model="form.caseId" placeholder="请输入病例编号" readonly />
         </el-form-item>
-        <el-form-item label="核实疾控人员ID" prop="verifyStaffId">
+        <!-- <el-form-item label="核实疾控人员ID" prop="verifyStaffId">
           <el-input v-model="form.verifyStaffId" placeholder="请输入核实疾控人员ID" />
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="核实时间" prop="verifyDatetime">
           <el-date-picker clearable
             v-model="form.verifyDatetime"
@@ -96,7 +99,17 @@
           </el-date-picker>
         </el-form-item>
         <el-form-item label="状态" prop="verifyResult">
-          <el-input v-model="form.verifyResult" placeholder="请输入状态" />
+        
+          <dict-tag :options="case_verify_result" :value="form.verifyResult" />
+          <el-select v-model="form.verifyResult" placeholder="请选择状态" clearable>
+            <el-option 
+              v-for="dict in case_verify_result"
+              :key="dict.value" 
+              :label="dict.label" 
+              :value="dict.value"
+            />
+          </el-select>
+
         </el-form-item>
         <el-form-item label="核实依据" prop="verifyBasis">
           <el-input v-model="form.verifyBasis" type="textarea" placeholder="请输入内容" />
@@ -147,7 +160,7 @@
 import { listInvestigate, getInvestigate, delInvestigate, addInvestigate, updateInvestigate } from "@/api/report/investigate"
 
 const { proxy } = getCurrentInstance()
-
+const {case_verify_result} = proxy.useDict("case_verify_result")
 const investigateList = ref([])
 const open = ref(false)
 const loading = ref(true)
