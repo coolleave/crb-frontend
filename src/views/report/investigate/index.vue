@@ -15,7 +15,7 @@
           icon="Plus"
           @click="handleAdd"
           v-hasPermi="['report:investigate:add']"
-        >新增</el-button>
+        >核实与调查</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -99,30 +99,37 @@
           </el-date-picker>
         </el-form-item>
         <el-form-item label="状态" prop="verifyResult">
-        
-          <dict-tag :options="case_verify_result" :value="form.verifyResult" />
-          <el-select v-model="form.verifyResult" placeholder="请选择状态" clearable>
+          <el-select v-model="form.verifyResult" placeholder="请选择核实结果" clearable>
             <el-option 
               v-for="dict in case_verify_result"
               :key="dict.value" 
               :label="dict.label" 
-              :value="dict.value"
+              :value="parseInt(dict.value)"
             />
           </el-select>
-
+        </el-form-item>
+        <el-form-item label="处理状态" prop="handleStatus">
+          <el-select v-model="form.handleStatus" placeholder="请选择处理状态" clearable>
+            <el-option 
+              v-for="dict in case_status"
+              :key="dict.value" 
+              :label="dict.label" 
+              :value="parseInt(dict.value)"
+            />
+          </el-select>
         </el-form-item>
         <el-form-item label="核实依据" prop="verifyBasis">
           <el-input v-model="form.verifyBasis" type="textarea" placeholder="请输入内容" />
         </el-form-item>
-        <el-form-item label="流行病学调查时间" prop="surveyDatetime">
+        <el-form-item label="调查时间" prop="surveyDatetime">
           <el-date-picker clearable
             v-model="form.surveyDatetime"
             type="date"
             value-format="YYYY-MM-DD"
-            placeholder="请选择流行病学调查时间">
+            placeholder="请选择调查时间">
           </el-date-picker>
         </el-form-item>
-        <el-form-item label="流行病学调查内容">
+        <el-form-item label="调查内容">
           <editor v-model="form.surveyContent" :min-height="192"/>
         </el-form-item>
         <el-form-item label="参与调查人员" prop="surveyStaff">
@@ -161,6 +168,7 @@ import { listInvestigate, getInvestigate, delInvestigate, addInvestigate, update
 
 const { proxy } = getCurrentInstance()
 const {case_verify_result} = proxy.useDict("case_verify_result")
+const {case_status} = proxy.useDict("case_status")
 const investigateList = ref([])
 const open = ref(false)
 const loading = ref(true)

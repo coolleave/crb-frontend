@@ -52,7 +52,7 @@
           icon="Plus"
           @click="handleAdd"
           v-hasPermi="['report:report:add']"
-        >新增</el-button>
+        >上报</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -62,6 +62,7 @@
           :disabled="single"
           @click="handleUpdate"
           v-hasPermi="['report:report:edit']"
+          v-if="0"
         >修改</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -88,9 +89,8 @@
     </el-row>
 
     <el-table v-loading="loading" :data="reportList" @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="病例编号" align="center" prop="caseCode" />
-      <el-table-column label="传染病" align="center" prop="infectId" />
+      <el-table-column label="病例编号" align="center" prop="caseCode" width="200"/>
+      <el-table-column label="传染病" align="center" prop="infectName" />
       <el-table-column label="上报类型" align="center" prop="reportType">
         <template #default="scope">
           <dict-tag :options="case_report_type" :value="scope.row.reportType" />
@@ -118,8 +118,8 @@
           <span>{{ parseTime(scope.row.reportDatetime, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="上报医务人员" align="center" prop="reporterId" />
-      <el-table-column label="上报机构" align="center" prop="reportDeptId" />
+      <el-table-column label="上报医务人员" align="center" prop="reporterName" />
+      <el-table-column label="上报机构" align="center" prop="reportDeptName" />
       <el-table-column label="核实状态" align="center" prop="caseStatus" >
         <template #default="scope">
           <dict-tag :options="case_verify_result" :value="scope.row.caseStatus" />
@@ -152,6 +152,18 @@
         <el-form-item label="传染病" prop="infectId">
           <el-input v-model="form.infectId" placeholder="请输入传染病" />
         </el-form-item>
+
+        <el-from-item label="上报类型" prop="reportType">
+          <el-select v-model="form.reportType" placeholder="请选择上报类型">
+            <el-option
+              v-for="item in case_report_type"
+              :key="item.value"
+              :label="item.label"
+              :value="parseInt(item.value)"
+            />
+          </el-select>
+        </el-from-item>
+        
         <el-form-item label="患者姓名" prop="patientName">
           <el-input v-model="form.patientName" placeholder="请输入患者姓名" />
         </el-form-item>
@@ -207,6 +219,16 @@
         </el-form-item>
         <el-form-item label="上报机构" prop="reportDeptId">
           <el-input v-model="form.reportDeptId" placeholder="请输入上报机构" />
+        </el-form-item>
+        <el-form-item label="核实状态" prop="caseStatus">
+          <el-select v-model="form.caseStatus" placeholder="请选择核实状态" disabled >
+            <el-option
+              v-for="dict in case_verify_result"
+              :key="dict.value" 
+              :label="dict.label" 
+              :value="parseInt(dict.value)"
+            />
+          </el-select>
         </el-form-item>
         <el-form-item label="住院病区" prop="hospitalWard">
           <el-input v-model="form.hospitalWard" placeholder="请输入住院病区" />

@@ -114,6 +114,16 @@
         <el-form-item label="轨迹地点" prop="trackAddress">
           <el-input v-model="form.trackAddress" placeholder="请输入轨迹地点" />
         </el-form-item>
+        <el-form-item label="轨迹类型" prop="trackType">
+          <el-select v-model="form.trackType" placeholder="请选择轨迹类型" clearable>
+            <el-option 
+              v-for="dict in case_track_type"
+              :key="dict.value" 
+              :label="dict.label" 
+              :value="parseInt(dict.value)"
+            />
+          </el-select>
+        </el-form-item>
         <el-form-item label="轨迹描述" prop="trackDesc">
           <el-input v-model="form.trackDesc" type="textarea" placeholder="请输入内容" />
         </el-form-item>

@@ -15,7 +15,7 @@
           icon="Plus"
           @click="handleAdd"
           v-hasPermi="['report:treatment:add']"
-        >新增</el-button>
+        >新增诊治处理</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -59,6 +59,11 @@
           <span>{{ parseTime(scope.row.diagDatetime, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
+      <el-table-column label="治愈状态" align="center" prop="cureStatus" >
+        <template #default="scope">
+          <dict-tag :options="case_cure_status" :value="scope.row.cureStatus" />
+        </template>
+      </el-table-column>
       <el-table-column label="诊断结果" align="center" prop="diagResult" />
       <el-table-column label="是否隔离" align="center" prop="isIsolated" >
         <template #default="scope">
@@ -98,9 +103,20 @@
             placeholder="请选择诊断时间">
           </el-date-picker>
         </el-form-item>
+        <el-form-item label="治愈状态" prop="cureStatus">
+          <el-select v-model="form.cureStatus" placeholder="请选择治愈状态" clearable>
+            <el-option 
+              v-for="dict in case_cure_status"
+              :key="dict.value" 
+              :label="dict.label" 
+              :value="parseInt(dict.value)"
+            />
+          </el-select>
+        </el-form-item>
         <el-form-item label="诊断结果" prop="diagResult">
           <el-input v-model="form.diagResult" type="textarea" placeholder="请输入内容" />
         </el-form-item>
+
         <el-form-item label="治疗方案" prop="treatmentPlan" >
           <el-input 
             v-model="form.treatmentPlan" 
@@ -109,6 +125,16 @@
             :autosize="{ minRows: 3, maxRows: 10 }" 
             style="width: 100%;"  
           />
+        </el-form-item>
+        <el-form-item label="是否隔离" prop="isIsolated">
+          <el-select v-model="form.isIsolated" placeholder="请选择是否隔离" clearable>
+            <el-option 
+              v-for="dict in [{label:'是',value:1},{label:'否',value:0}]"
+              :key="dict.value" 
+              :label="dict.label" 
+              :value="parseInt(dict.value)"
+            />
+          </el-select>
         </el-form-item>
         <el-form-item label="隔离地点" prop="isolateAddress">
           <el-input v-model="form.isolateAddress" placeholder="请输入隔离地点" />
@@ -161,7 +187,7 @@
 import { listTreatment, getTreatment, delTreatment, addTreatment, updateTreatment } from "@/api/report/treatment"
 
 const { proxy } = getCurrentInstance()
-
+const {case_cure_status} = proxy.useDict("case_cure_status")
 const treatmentList = ref([])
 const open = ref(false)
 const loading = ref(true)

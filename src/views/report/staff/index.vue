@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="医务人员姓名" prop="medName">
+      <el-form-item label="姓名" prop="medName">
         <el-input
           v-model="queryParams.medName"
           placeholder="请输入医务人员姓名"
@@ -61,7 +61,7 @@
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="医务人员ID" align="center" prop="medId" />
       <el-table-column label="医务人员姓名" align="center" prop="medName" />
-      <el-table-column label="所属机构ID" align="center" prop="medDeptId" />
+      <el-table-column label="所属机构名称" align="center" prop="medDeptName" />
       <el-table-column label="医师资格证号" align="center" prop="medLicense" />
       <el-table-column label="联系电话" align="center" prop="medPhone" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
@@ -84,7 +84,7 @@
 对话框 -->
     <el-dialog :title="title" v-model="open" width="500px" append-to-body>
       <el-form ref="staffRef" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="医务人员姓名" prop="medName">
+        <el-form-item label="姓名" prop="medName">
           <el-input v-model="form.medName" placeholder="请输入医务人员姓名" />
         </el-form-item>
         <el-form-item label="所属机构ID" prop="medDeptId">
@@ -167,6 +167,7 @@ function reset() {
     medId: null,
     medName: null,
     medDeptId: null,
+    medDeptName: null,
     medLicense: null,
     medPhone: null
   }
