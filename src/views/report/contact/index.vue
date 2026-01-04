@@ -142,13 +142,12 @@
         </el-form-item>
 
         <el-form-item label="风险程度" prop="contactRisk">
-          <dict-tag :options="case_contract_risk" :value="form.contactRisk" />
           <el-select v-model="form.contactRisk" placeholder="请选择风险程度" clearable>
             <el-option 
               v-for="dict in case_contract_risk"
               :key="dict.value" 
               :label="dict.label" 
-              :value="dict.value"
+              :value="parseInt(dict.value)"
             />
           </el-select>
         </el-form-item>

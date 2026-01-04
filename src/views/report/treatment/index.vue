@@ -84,8 +84,8 @@
     <!-- 添加或修改病例诊治处理对话框 -->
     <el-dialog :title="title" v-model="open" width="500px" append-to-body>
       <el-form ref="treatmentRef" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="病例编号" prop="caseId"  readonly>
-          <el-input v-model="form.caseId" placeholder="请输入病例编号" readonly/>
+        <el-form-item label="病例编号" prop="caseId"  >
+          <el-input v-model="form.caseId" placeholder="请输入病例编号" />
         </el-form-item>
         <el-form-item label="诊治医生姓名" prop="diagDoctor">
           <el-input v-model="form.diagDoctor" placeholder="请输入诊治医生姓名" />

@@ -156,13 +156,12 @@
           <el-input v-model="form.patientName" placeholder="请输入患者姓名" />
         </el-form-item>
         <el-form-item label="性别" prop="patientGender">
-          <dict-tag :options="case_psex" :value="form.patientGender" />
           <el-select v-model="form.patientGender" placeholder="请选择性别">
             <el-option
               v-for="item in case_psex"
               :key="item.value"
               :label="item.label"
-              :value="item.value"
+              :value="parseInt(item.value)"
             />
           </el-select>
         </el-form-item>

@@ -85,7 +85,7 @@
     <el-dialog :title="title" v-model="open" width="500px" append-to-body>
       <el-form ref="investigateRef" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="病例编号" prop="caseId">
-          <el-input v-model="form.caseId" placeholder="请输入病例编号" readonly />
+          <el-input v-model="form.caseId" placeholder="请输入病例编号"  />
         </el-form-item>
         <!-- <el-form-item label="核实疾控人员ID" prop="verifyStaffId">
           <el-input v-model="form.verifyStaffId" placeholder="请输入核实疾控人员ID" />
